@@ -2,13 +2,20 @@
 
 import math
 
-BAND_FLUX_THRESHOLDS = {
-    "u": 178286.7,
-    "g": 255131.4,
-    "r": 657111.2,
-    "i": 743053.0,
-    "z": 963585.1,
-    "y": 1013290.7,
+thresholds = {
+    "snr": 5,
+    "flux_ext": 0.35,
+    "i_ext": 0.5,
+    "ellip_ext": 0.2,
+    "temp_sci_flux_ratio": 0.85,
+    "flux_caps": {
+        "u": 88644.7,
+        "g": 118074.2,
+        "r": 166872.5,
+        "i": 203090.9,
+        "z": 257254.0,
+        "y": 264794.0,
+    },
 }
 
 
@@ -54,7 +61,7 @@ def evaluate(props):
         props["lsst_diaSource_pixelFlags_interpolated"],
         props["lsst_diaSource_pixelFlags_saturated"],
         props["lsst_diaSource_pixelFlags_suspect"],
-        snr <= 15.0,
+        snr <= thresholds["snr"],
         not (all_pos or all_neg),
     ]):
         return None
@@ -75,15 +82,15 @@ def evaluate(props):
     temp_sci_flux_ratio = template_flux / science_flux
 
     ## cuts
-    if flux_ext <= 1.259 or i_ext <= 1.5 or ellip_ext <= 0.2:
+    if flux_ext <= thresholds["flux_ext"] or i_ext <= thresholds["i_ext"] or ellip_ext <= thresholds["ellip_ext"]:
         return None
 
     # Moving object cut
-    if temp_sci_flux_ratio <= 0.25:
+    if temp_sci_flux_ratio <= thresholds["temp_sci_flux_ratio"]:
         return None
 
     # Per-band template flux cut
-    threshold = BAND_FLUX_THRESHOLDS.get(band)
+    threshold = thresholds["flux_caps"].get(band)
     if threshold is None or template_flux >= threshold:
         return None
 
