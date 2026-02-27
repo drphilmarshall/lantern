@@ -13,7 +13,7 @@ This python package is work in progress: ultimately the `lantern` repo will incl
 ## Contributors
 * Phil Marshall, SLAC National Accelerator Laboratory
 * Shenming Fu, SLAC National Accelerator Laboratory: fork
-* Zach Gillis, Stanford University: fork
+* Zach Gillis, Stanford University: [fork](https://github.com/zachgillis/lantern)
 
 ## Using this Code
 Instructions on getting started (installing and running the `lantern`) will appear here. 
