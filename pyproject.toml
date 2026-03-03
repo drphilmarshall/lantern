@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lantern-lsst"
+version = "0.1.0"
+description = "Lensed AgN search in lssT using machinE leaRNing"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Phil Marshall" },
+    { name = "Shenming Fu" },
+    { name = "Zach Gillis" },
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+
+[project.urls]
+Homepage = "https://github.com/drphilmarshall/lantern"
