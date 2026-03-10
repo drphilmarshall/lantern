@@ -1,0 +1,12 @@
+snr: 5
+flux_ext: 0.35
+i_ext: 0.5
+ellip_ext: 0.2
+temp_sci_flux_ratio: 0.85
+flux_caps:
+  u: 61809.6
+  g: 589528.5
+  r: 1651457.6
+  i: 1771429.3
+  z: 1677512.0
+  y: 800863.4
