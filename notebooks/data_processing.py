@@ -202,30 +202,43 @@ def add_engineered_features(table):
     Table
         Table with added engineered features
     """
-    # Reorder columns to put diaSourceId first
     names = table.colnames
     names.remove('diaSourceId')
     names.insert(0, 'diaSourceId')
     table = table[names]
     
-    # Engineered features
-    table['flux_ext'] = table['apFlux'] / table['psfFlux']
-    
-    table['ellip_ext'] = (
-        (np.sqrt((table['ixx'] - table['iyy'])**2 + 4 * table['ixy']**2) / 
-         (table['ixx'] + table['iyy'])) - 
-        (np.sqrt((table['ixxPSF'] - table['iyyPSF'])**2 + 4 * table['ixyPSF']**2) / 
-         (table['ixxPSF'] + table['iyyPSF']))
+    psf_trace = table['ixxPSF'] + table['iyyPSF']
+    src_trace = table['ixx'] + table['iyy']
+    table['moment_ext'] = np.where(psf_trace != 0, src_trace / psf_trace, np.nan)
+    src_ellip = np.where(
+        src_trace != 0,
+        np.sqrt((table['ixx'] - table['iyy'])**2 + 4 * table['ixy']**2) / src_trace,
+        np.nan
     )
-    
-    table['i_ext'] = (table['ixx'] + table['iyy']) / (table['ixxPSF'] + table['iyyPSF'])
-    
+    psf_ellip = np.where(
+        psf_trace != 0,
+        np.sqrt((table['ixxPSF'] - table['iyyPSF'])**2 + 4 * table['ixyPSF']**2) / psf_trace,
+        np.nan
+    )
+    table['ellip_ext'] = src_ellip - psf_ellip
+    table['flux_ext'] = np.where(
+        table['psfFlux'] != 0,
+        table['apFlux'] / table['psfFlux'],
+        np.nan
+    )
     table['template_flux'] = table['scienceFlux'] - table['psfFlux']
-    table['temp_sci_flux_ratio'] = table['template_flux'] / table['scienceFlux']
-    
-    # For FWHM circle on plot (converted to pixels)
-    table['psf_fwhm'] = (table['ixxPSF'] * table['iyyPSF'] - table['ixyPSF']**2)**(1/4) * 2.35482 * 5
-    
+    table['temp_sci_flux_ratio'] = np.where(
+        table['scienceFlux'] != 0,
+        table['template_flux'] / table['scienceFlux'],
+        np.nan
+    )
+    psf_det = table['ixxPSF'] * table['iyyPSF'] - table['ixyPSF']**2
+    table['psf_fwhm'] = np.where(
+        psf_det != 0,
+        np.abs(psf_det)**(1/4) * 2.35482 * 5,
+        np.nan
+    )
+    table['x_y_err'] = np.sqrt(table['xErr']**2 + table['yErr']**2)
     return table
 
 from matplotlib.patches import Circle
@@ -274,7 +287,7 @@ def fetch_images_for_row(row, sia_service, get_pyvo_auth, fov=0.003):
         extendedness = row['extendedness']
         flux_ext = row['flux_ext']
         ellip_ext = row['ellip_ext']
-        i_ext = row['i_ext']
+        moment_ext = row['moment_ext']
         template_flux = row['template_flux']
         scienceFlux = row['scienceFlux']
         psfFlux = row['psfFlux']
@@ -345,7 +358,7 @@ def fetch_images_for_row(row, sia_service, get_pyvo_auth, fov=0.003):
             'extendedness': extendedness,
             'flux_ext': flux_ext,
             'ellip_ext': ellip_ext,
-            'i_ext': i_ext,
+            'moment_ext': moment_ext,
             'template_flux': template_flux,
             'scienceFlux': scienceFlux,
             'psfFlux': psfFlux,
@@ -394,7 +407,7 @@ def create_image_gallery(table, rows=5, cols=2, include_legacy=True):
     table : Table
         Astropy Table containing source data with required columns:
         ra, dec, visit, band, diaSourceId, snr, extendedness, flux_ext, 
-        ellip_ext, i_ext, template_flux, scienceFlux, psfFlux, apFlux, psf_fwhm
+        ellip_ext, moment_ext, template_flux, scienceFlux, psfFlux, apFlux, psf_fwhm
     rows : int
         Number of rows in the gallery layout (default: 5)
     cols : int
@@ -440,7 +453,7 @@ def create_image_gallery(table, rows=5, cols=2, include_legacy=True):
     
     fetch_time = time.time() - start_time
     print(f"\nAll images fetched in {fetch_time:.1f}s ({fetch_time/60:.1f} min)")
-    print(f"Average per image set: {fetch_time/len(gallery_results):.1f}s\n")
+    print(f"Average per image set: {fetch_time/len(gallery_results):.1f}s\n" if gallery_results else "No images fetched.\n")
     
     actual_n_images = len(gallery_results)
     if actual_n_images < n_images:
@@ -506,7 +519,7 @@ def create_image_gallery(table, rows=5, cols=2, include_legacy=True):
                      fontsize=10, color='white',
                      bbox=dict(boxstyle='round,pad=0.3', facecolor='black', alpha=0.7))
     
-            ax3.text(0.98, 0.02, f'Ext.: {result["extendedness"]:.3f}\nLog Flux Ext.: {np.log10(result["flux_ext"]):.3f}\nEllip. Diff.: {result["ellip_ext"]:.3f}\nMoment Ext.: {result["i_ext"]:.3f}', 
+            ax3.text(0.98, 0.02, f'Ext.: {result["extendedness"]:.3f}\nLog Flux Ext.: {np.log10(result["flux_ext"]):.3f}\nEllip. Diff.: {result["ellip_ext"]:.3f}\nMoment Ext.: {result["moment_ext"]:.3f}', 
                      transform=ax3.transAxes, ha='right', va='bottom',
                      fontsize=10, color='white',
                      bbox=dict(boxstyle='round,pad=0.3', facecolor='black', alpha=0.7))

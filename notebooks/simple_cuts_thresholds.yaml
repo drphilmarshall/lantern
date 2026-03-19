@@ -1,6 +1,6 @@
 snr: 5
 flux_ext: 0.35
-i_ext: 0.5
+moment_ext: 0.5
 ellip_ext: 0.2
 temp_sci_flux_ratio: 0.85
 flux_caps:
