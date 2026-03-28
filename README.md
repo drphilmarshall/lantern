@@ -1,6 +1,6 @@
-<img width="426" height="344" alt="image" src="https://github.com/user-attachments/assets/767f96c2-63c1-4b2a-bb1a-4eb9ae0c5cf8" />
+<img width="658" height="478" alt="image" src="https://github.com/user-attachments/assets/1264a485-abef-4943-8a71-3b04ff420b67" />
 
-_Lensed AgN search in lssT using machinE leaRNing_
+## _Lensed AgN search in lssT using machinE leaRNing_
 
 Gravitationally lensed quasars are predicted to appear, and be efficiently detected, as extended features in wide field optical imaging survey "difference images" (e.g. [Kochanek et al 2006](https://ui.adsabs.harvard.edu/abs/2006ApJ...637L..73K/abstract), [Dux et al 2024](https://ui.adsabs.harvard.edu/abs/2024A%26A...682A..47D/abstract)). We are developing just such a search in the Rubin Observatory LSST data, which will include automatically generated Alerts for all difference image analysis sources.    
 
