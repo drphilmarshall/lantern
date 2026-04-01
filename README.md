@@ -18,4 +18,7 @@ This python package is work in progress: ultimately the `lantern` repo will incl
 ## Using this Code
 Instructions on getting started (installing and running the `lantern`) will appear here. 
 
+Currently, the filters are built in [src/lantern/filters](src/lantern/filters).
+There are three notebooks for DP1 DIA source analysis, injected source analysis, and lensed AGN classifier, respectively, in [notebooks](notebooks).
+
 If you make use of this code in your research, please include an acknowledgement and a link to this repository - and do please get in touch via this repo's [issues](https://github.com/drphilmarshall/lantern/issues/new), we welcome new collaborators. 
