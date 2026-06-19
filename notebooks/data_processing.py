@@ -235,7 +235,7 @@ def add_engineered_features(table):
     psf_det = table['ixxPSF'] * table['iyyPSF'] - table['ixyPSF']**2
     table['psf_fwhm'] = np.where(
         psf_det != 0,
-        np.abs(psf_det)**(1/4) * 2.35482 * 5,
+        np.abs(psf_det)**(1/4) * 2.35482 * 0.2, #5,
         np.nan
     )
     table['x_y_err'] = np.sqrt(table['xErr']**2 + table['yErr']**2)
