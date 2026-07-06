@@ -17,6 +17,7 @@ The code for this filter can be found on the [ANTARES DevKit GitLab](https://git
 
 | Training Version | Description |
 |---|---|
+| t2.0.8 | Same as t2.0.7, except we use ECDFS, Galactic, and Ecliptic DP1 data, and also include all DP1 cols for _Second Pass_ training|
 | t2.0.7 | Same underlying data as t2.0.6, except we use an earlier version of `xgboost==2.1.4` (instead of `3.2.0`) for compatibility with ANTARES|
 | t2.0.6 | Updated moment equation in `data_processing.py` to measure PSF moment in pixels|
 | t2.0.5 | Uses all v2.0 injections (3000+ simulations), and assign unique `lens_id` to non-LAGN based on 3as radius clustering|
