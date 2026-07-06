@@ -28,7 +28,7 @@ The code for this filter can be found on the [ANTARES DevKit GitLab](https://git
 | t2.0.7 | Same underlying data as t2.0.6, except we use an earlier version of `xgboost==2.1.4` (instead of `3.2.0`) for compatibility with ANTARES|
 | t2.0.6 | Updated moment equation in `data_processing.py` to measure PSF moment in pixels|
 | t2.0.5 | Uses all v2.0 injections (3000+ simulations), and assign unique `lens_id` to non-LAGN based on 3as radius clustering|
-| t2.0.4 | Uses all v2.0 injections (3000+ simulations), and splits non-LAGN into three sky regions for test, train, and eval sets (previous versions did NOT cluster non-lenses)|
+| t2.0.4 | Uses all v2.0 injections (3000+ simulations), and splits non-LAGN into three sky regions for test, train, and eval sets (previous versions did NOT cluster non-lenses). Non-LAGN are from ECDFS field only.|
 
 ## Contributors
 * Phil Marshall, SLAC National Accelerator Laboratory
