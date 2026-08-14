@@ -14,11 +14,17 @@ This python package is work in progress: ultimately the `lantern` repo will incl
 * Phil Marshall, SLAC National Accelerator Laboratory
 * Shenming Fu, SLAC National Accelerator Laboratory
 * Zach Gillis, Stanford University: [fork](https://github.com/zachgillis/lantern)
+* Natascha Barac, Stanford University: [fork](https://github.com/natascha-b/lantern)
 
 ## Using this Code
-Instructions on getting started (installing and running the `lantern`) will appear here. 
+Currently, the First Cut filter is built in [src/lantern/filters](src/lantern/filters).
 
-Currently, the filters are built in [src/lantern/filters](src/lantern/filters).
 There are three notebooks for DP1 DIA source analysis, injected source analysis, and lensed AGN classifier, respectively, in [notebooks](notebooks).
+To run the `lantern` notebooks, be sure to first install the correct version of XGBoost, and also the ANTARES client, needed for downloading tagged alerts from the broker. 
+```
+pip install --user xgboost==2.1.4
+pip install --user antares-client. 
+```
+You may need to `pip uninstall xgboost` first.
 
 If you make use of this code in your research, please include an acknowledgement and a link to this repository - and do please get in touch via this repo's [issues](https://github.com/drphilmarshall/lantern/issues/new), we welcome new collaborators. 
