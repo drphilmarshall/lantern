@@ -1,0 +1,5 @@
+# Add-ons for the Rubin Science Platform LSST kernel.
+# Rubin supplies the LSST Science Pipelines and their core stack.
+# Keep XGBoost aligned with the First Cut model used by the notebooks.
+corner==2.3.0
+xgboost==2.1.4
