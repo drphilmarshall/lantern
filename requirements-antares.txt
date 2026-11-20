@@ -1,0 +1,3 @@
+# Additional dependency for notebooks/investigating_second_pass.ipynb
+-r requirements-rsp.txt
+antares-client

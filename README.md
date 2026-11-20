@@ -37,14 +37,30 @@ The code for this filter can be found on the [ANTARES DevKit GitLab](https://git
 * Natascha Barac, Stanford University: [fork](https://github.com/natascha-b/lantern)
 
 ## Using this Code
-Currently, the First Cut filter is built in [src/lantern/filters](src/lantern/filters).
 
-There are three notebooks for DP1 DIA source analysis, injected source analysis, and lensed AGN classifier, respectively, in [notebooks](notebooks).
-To run the `lantern` notebooks, be sure to first install the correct version of XGBoost, and also the ANTARES client, needed for downloading tagged alerts from the broker. 
-```
-pip install --user xgboost==2.1.4
-pip install --user antares-client. 
-```
-You may need to `pip uninstall xgboost` first.
+The training notebooks are designed for the Rubin Science Platform (RSP) Notebook Aspect and the LSST kernel. The current notebook versions were last tested on RSP release 29.2.0; record the RSP image/release used when sharing results.
+
+### Clone and install notebook dependencies
+
+Fork this repository on GitHub, then clone your fork in the RSP JupyterLab Terminal:
+
+cd ~/notebooks
+git clone https://github.com/<your-github-name>/lantern.git
+cd lantern
+pip install --user -r requirements-rsp.txt
+
+Restart the notebook kernel after installing packages. For `investigating_second_pass.ipynb`, install `requirements-antares.txt` instead. Do not upgrade the LSST stack to install notebook packages.
+
+The notebooks use the RSP-provided LSST Science Pipelines, Astropy, NumPy, pandas, SciPy, scikit-learn, Matplotlib, seaborn, and PyYAML. `requirements-rsp.txt` declares the additional plotting and classifier packages required by the training notebooks. XGBoost is pinned to 2.1.4 to match the First Cut model used by this workflow and its ANTARES compatibility requirement. If a dependency import fails, check that the notebook uses the LSST kernel, install from the requirements file in an RSP Terminal, restart the kernel, and rerun the import cell.
+
+### Second Pass inputs and run modes
+
+`lantern_second_pass_classifier.ipynb` does not yet download its input files. It expects these files in the notebook's working directory:
+
+combined_training_data_v2.0.8_all_cols.csv
+lantern_xgboost_t2.0.7.pkl (the trained First Cut model)
+
+For the complete training workflow, run `lantern_training_data_processing.ipynb` to create the training CSV, and `lantern_first_cut_filter.ipynb` to create the First Cut model, before running the Second Pass. These notebooks also require the DP1 cache and simulated-injection catalogs described in `lantern_training_data_processing.ipynb`.
+
 
 If you make use of this code in your research, please include an acknowledgement and a link to this repository - and do please get in touch via this repo's [issues](https://github.com/drphilmarshall/lantern/issues/new), we welcome new collaborators. 
