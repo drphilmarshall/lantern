@@ -3,3 +3,4 @@
 # Keep XGBoost aligned with the First Cut model used by the notebooks.
 corner==2.3.0
 xgboost==2.1.4
+gdown==6.5.2
